@@ -3,11 +3,13 @@ import math
 
 class TCNNTSP:
     """
-    Implementation of NN model presented in "Chaotic Simulated Annealing by a 
-    Neural Network Model with Transient Chaos" by Chen and Aihara, 1995.
+    Implements a Transiently Chaotic Neural Network (TCNN), as presented in
+    "Chaotic Simulated Annealing by a Neural Network Model with Transient Chaos"
+    by Chen and Aihara, 1995.
     
-    For a n-city TSP, there will be a total of N = n^2 neurons, or n rows of
-    n neurons.
+    This TCNN is specifically tailored for solving the traveling salesman 
+    problem (TSP). For a n-city TSP, there will be a total of N = n^2 neurons,
+    or n rows of n neurons.
     """
     def __init__(self, distances, **constants):
         m,n = distances.shape
@@ -35,22 +37,8 @@ class TCNNTSP:
 
         self.X += np.random.uniform(-1, 1, (n,n))
         self.pairs = self.__random_pairs()
-    
-    def __g(self,x):
-        #return 1.0 / (1 + math.exp(-x / self.epsilon))
-        return 0.5 * (1 + math.tanh(x/self.epsilon))
+        self.iter = 0
 
-    def __g_inv(self, y):
-        return -self.epsilon * math.atanh(1 - 2*y)
-    
-    def run(self, maxiter=None):
-        e, p = [], []
-        steps = 0
-        while not self.valid_tour() and (steps < maxiter if maxiter else True):
-            self.step()
-            steps += 1
-            yield self.energy(), self.percent_valid()
-    
     def __random_pairs(self):
         pairs = []
         for i in self.ns:
@@ -59,7 +47,33 @@ class TCNNTSP:
                 
         np.random.shuffle(pairs)
         return pairs
+            
+    def __g(self,x):
+        #return 1.0 / (1 + math.exp(-x / self.epsilon))
+        return 0.5 * (1 + math.tanh(x/self.epsilon))
+
+    def __retrieve(self, attr):
+        res = getattr(self,attr)
+        if callable(res):
+            return res()
+        else:
+            return res
         
+    def run(self, maxiter=None, collecting=None):
+        results = {"steps":[]}
+        if collecting:
+            for attr in collecting:
+                results[attr] = []
+        
+        iters = 0
+        while not self.valid_tour() and (iters < maxiter if maxiter else True):
+            self.step()
+            if collecting:
+                for attr in collecting:
+                    results[attr].append(self.__retrieve(attr))
+            iters += 1
+        return results
+    
     def step(self):
         # update each neuron asynchronously at random
         #for i,k in self.__random_pairs():
@@ -67,6 +81,7 @@ class TCNNTSP:
             self.__update_neuron(i,k)
         
         self.z *= (1 - self.beta)
+        self.iter += 1
 
     def __update_output(self,i,k):
         self.Y[i,k] = self.__g(self.X[i,k])
