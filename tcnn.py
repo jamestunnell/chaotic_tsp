@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-class TCNNTSP:
+class TCNN:
     """
     Implements a Transiently Chaotic Neural Network (TCNN), as presented in
     "Chaotic Simulated Annealing by a Neural Network Model with Transient Chaos"
