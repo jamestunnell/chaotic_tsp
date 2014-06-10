@@ -8,19 +8,19 @@ Arguments:
     TSP_FILE The TSPLIB XML file containing distances between cities (TSP problem instance).
 
 Options:
-    --nruns=NRUNS       Number of times to try CSA on the TSP instance [default: 1]
+    --nruns=NRUNS       Solve TSP by CSA NRUNS times [default: 1]
     --maxiter=MAXITER   Maximum iterations to run CSA for [default: 1000]
-    --k=K               Damping factor of nerve membrane, between 0 and 1 [default: 0.9]
-    --alpha=ALPHA       Positive scaling parameter for neuronal inputs [default: 0.015]
-    --beta=BETA         Damping factor of self-connection weight, between 0 and 1 [default: 0.01]
+    --k=K               Nerve membrane damping factor, 0 to 1 [default: 0.9]
+    --alpha=ALPHA       Scaling parameter for neuron inputs [default: 0.015]
+    --beta=BETA         Self-connection damping factor, 0 to 1 [default: 0.01]
     --z0=SELFCONN       Self-connection weight start value [default: 0.1]
     --I0=INPUTBIAS      Input bias [default: 0.5]
-    --epsilon=EPSILON   Steepness parameter of neuron output function [default: 0.004]
+    --epsilon=EPSILON   Neuron output function steepness [default: 0.004]
     --W1=VALIDITYWT     Weight of validity constraint [default: 1]
     --W2=OPTIMALITYWT   Weight of tour optimality constraint [default: 1]
-    --energy            Collect energy data and add to graph as line plot
-    --percent           Collect percent valid data and add to graph as line plot
-    --length            Collect tour_length data and add to graph as histogram
+    --energy            Graph energy data, as line plot
+    --percent           Graph percent valid data, as line plot
+    --length            Graph tour length data, as histogram
 """
 
 from docopt import docopt
