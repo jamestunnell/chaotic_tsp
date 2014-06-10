@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """Solve the traveling salesman problem (TSP) by chaotic simulated annealing 
 (CSA), using a transiently chaotic neural network (TCNN).
 
