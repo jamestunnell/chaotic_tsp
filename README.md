@@ -5,7 +5,7 @@ Perform chaotic simulated annealing (CSA), using transiently chaotic neural netw
 
 ## Background
 
-Read my [blog post](http://jamestunnell.github.io/projects/2014/06/09/chaotic-tsp/) for an explanation of how CSA is used to solve the TSP.
+Read my [blog post](http://jamestunnell.github.io/blog/2014/06/09/chaotic-tsp/) for an explanation of how CSA is used to solve the TSP.
 
 ## Installation
 
